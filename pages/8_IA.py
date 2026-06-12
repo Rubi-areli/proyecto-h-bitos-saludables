@@ -10,9 +10,13 @@ st.set_page_config(page_title="Interfaz IA", page_icon="🤖", layout="wide")
 # Conectar la API Key de Google AI Studio desde los Secrets de Streamlit
 if "GEMINI_API_KEY" in st.secrets:
     genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-else:
-    st.error("🔑 Falta la clave 'GEMINI_API_KEY' en los Secrets de Streamlit Cloud o en tu archivo secrets.toml local.")
 
+    st.write("Modelos disponibles:")
+    for model in genai.list_models():
+        st.write(model.name)
+
+else:
+    st.error("🔑 Falta la clave GEMINI_API_KEY")
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
