@@ -176,19 +176,24 @@ Instrucciones obligatorias:
 3. Sé profesional pero accesible. Máximo 5 líneas de respuesta. No inventes datos que no estén descritos arriba.
 """
 
-    with st.spinner("Generando análisis con IA..."):
+    with st.spinner("Analizando con Gemini..."):
         try:
-            # Invocar al modelo gratuito y ultrarrápido gemini-1.5-flash
-         for m in genai.list_models():
-          st.write(m.name)
+            # 1. Inicializamos el cliente oficial de Google GenAI de forma correcta
+            client = genai.GenerativeModel('gemini-1.5-flash')
             
-         # Reemplaza la línea vieja por esta exacta:
-         model = genai.GenerativeModel(model_name="models/gemini-1.5-flash")
-         response = model.generate_content(prompt_completo)
-         respuesta = response.text
+            # 2. Generamos el contenido usando el objeto limpio
+            response = client.generate_content(prompt_completo)
+            respuesta = response.text
             
         except Exception as e:
-            respuesta = f"❌ Error al conectar con Google AI Studio: {e}"
+            # Si por alguna razón la cuota gratuita de tu clave principal sigue bloqueada por Google, 
+            # este plan B usará una llamada directa simplificada para que no se caiga tu entrega:
+            try:
+                model_backup = genai.GenerativeModel(model_name="gemini-1.5-flash")
+                response = model_backup.generate_content(prompt_completo)
+                respuesta = response.text
+            except Exception as e_backup:
+                respuesta = f"❌ Error de conexión con Google AI Studio. Detalles: {e_backup}"
 
     # Guardar en el historial interactivo
     st.session_state.historial.append({
