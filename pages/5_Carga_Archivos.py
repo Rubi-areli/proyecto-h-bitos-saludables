@@ -43,7 +43,7 @@ st.markdown("""
 archivo = st.file_uploader("📂 Selecciona un archivo:", type=['csv', 'xlsx', 'xls'])
 
 if archivo is None:
-    st.info("👆 Sube un archivo CSV o Excel para comenzar el análisis.")
+    st.info(" Sube un archivo CSV o Excel para comenzar el análisis.")
     st.stop()
 
 # ── LEER ARCHIVO ──────────────────────────────────────────────────────────────

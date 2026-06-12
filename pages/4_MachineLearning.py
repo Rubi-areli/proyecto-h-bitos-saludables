@@ -61,11 +61,11 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 # ── CONTROLES PRINCIPALES ─────────────────────────────────────────────────────
-st.markdown("### ⚙️ Configuración del Modelo")
+st.markdown("###  Configuración del Modelo")
 
 col1, col2, col3 = st.columns(3)
 
-algoritmo = col1.selectbox("🧠 Algoritmo:", [
+algoritmo = col1.selectbox("Algoritmo:", [
     "K-Means Clustering",
     "Regresión Logística",
     "Regresión Lineal"
@@ -75,15 +75,15 @@ variables_numericas = ['Age', 'BMI', 'Physical activity', 'Regular sleeping hour
                         'Alcohol consumption', 'Follow Diet', 'Taking supplements',
                         'Mental health management', 'Illness count last year']
 
-variable_analizar = col2.selectbox("📊 Variable a analizar:", variables_numericas)
-variable_independiente = col3.selectbox("📌 Variable independiente:",
+variable_analizar = col2.selectbox(" Variable a analizar:", variables_numericas)
+variable_independiente = col3.selectbox(" Variable independiente:",
     [v for v in variables_numericas if v != variable_analizar])
 
 st.divider()
 
 # ── K-MEANS ───────────────────────────────────────────────────────────────────
 if algoritmo == "K-Means Clustering":
-    st.subheader("📦 K-Means Clustering")
+    st.subheader(" K-Means Clustering")
 
     k = st.slider("Número de clusters:", 2, 6, 3)
 
