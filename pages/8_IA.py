@@ -189,7 +189,8 @@ Instrucciones obligatorias:
          for m in genai.list_models():
           st.write(m.name)
             
-         model = genai.GenerativeModel("gemini-2.0-flash-lite")
+         # Reemplaza la línea vieja por esta exacta:
+         model = genai.GenerativeModel(model_name="models/gemini-1.5-flash")
          response = model.generate_content(prompt_completo)
          respuesta = response.text
             
