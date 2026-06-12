@@ -186,11 +186,12 @@ Instrucciones obligatorias:
     with st.spinner("Generando análisis con IA..."):
         try:
             # Invocar al modelo gratuito y ultrarrápido gemini-1.5-flash
-         
+         for m in genai.list_models():
+          st.write(m.name)
             
-            model = genai.GenerativeModel("gemini-2.0-flash-lite")
-            response = model.generate_content(prompt_completo)
-            respuesta = response.text
+         model = genai.GenerativeModel("gemini-2.0-flash-lite")
+         response = model.generate_content(prompt_completo)
+         respuesta = response.text
             
         except Exception as e:
             respuesta = f"❌ Error al conectar con Google AI Studio: {e}"
