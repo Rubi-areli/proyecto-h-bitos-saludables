@@ -96,11 +96,11 @@ st.markdown('<p class="section-label">Personaliza tu búsqueda</p>', unsafe_allo
 col1, col2, col3 = st.columns(3)
 with col1:
     st.markdown("**Objetivo**")
-    objetivo = st.radio("", ['Todos','Bajar peso','Ganar músculo','Energía'],
+    objetivo = st.radio("objetivo", ['Todos','Bajar peso','Ganar músculo','Energía'],
                         label_visibility="collapsed")
 with col2:
     st.markdown("**Momento del día**")
-    categoria = st.radio("", ['Todas','Desayuno','Almuerzo','Cena'],
+    categoria = st.radio("categoria", ['Todas','Desayuno','Almuerzo','Cena'],
                          label_visibility="collapsed")
 with col3:
     st.markdown("**Configuración**")
