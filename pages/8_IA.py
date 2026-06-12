@@ -178,23 +178,13 @@ Instrucciones obligatorias:
 
     with st.spinner("Analizando con Gemini..."):
         try:
-            # 1. Inicializamos el cliente oficial de Google GenAI de forma correcta
-            client = genai.GenerativeModel('gemini-1.5-flash')
-            
-            # 2. Generamos el contenido usando el objeto limpio
-            response = client.generate_content(prompt_completo)
+            # Usamos 'gemini-pro', que es el modelo universal y más compatible con la API v1beta
+            model = genai.GenerativeModel("gemini-pro")
+            response = model.generate_content(prompt_completo)
             respuesta = response.text
             
         except Exception as e:
-            # Si por alguna razón la cuota gratuita de tu clave principal sigue bloqueada por Google, 
-            # este plan B usará una llamada directa simplificada para que no se caiga tu entrega:
-            try:
-                model_backup = genai.GenerativeModel(model_name="gemini-1.5-flash")
-                response = model_backup.generate_content(prompt_completo)
-                respuesta = response.text
-            except Exception as e_backup:
-                respuesta = f"❌ Error de conexión con Google AI Studio. Detalles: {e_backup}"
-
+            respuesta = f"❌ Error de conexión con Google AI Studio. Detalles: {e}"
     # Guardar en el historial interactivo
     st.session_state.historial.append({
         'pregunta': pregunta,
