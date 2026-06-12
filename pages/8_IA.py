@@ -188,7 +188,7 @@ Instrucciones obligatorias:
             # Invocar al modelo gratuito y ultrarrápido gemini-1.5-flash
          
             
-            model = genai.GenerativeModel("gemini-2.0-flash")
+            model = genai.GenerativeModel("gemini-2.0-flash-lite")
             response = model.generate_content(prompt_completo)
             respuesta = response.text
             
