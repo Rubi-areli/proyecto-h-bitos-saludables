@@ -151,23 +151,16 @@ if col_clear.button("Limpiar historial"):
 # ── PROCESAR PREGUNTA CON GEMINI ──────────────────────────────────────────────
 if enviar and pregunta.strip():
     # Creamos un contexto estadístico estructurado para inyectarle a la IA
+ # Resumen optimizado y ligero en tokens
     resumen = f"""
 Dataset: Hábitos Saludables
-- Filas: {df.shape[0]}
-- Columnas: {df.shape[1]}
-- Columnas disponibles: {', '.join(df.columns.tolist())}
-
-Estadísticas principales (Numéricas):
-{df.describe().to_string()}
-
-Valores categóricos (Conteos exactos):
-- Smoker?: {df['Smoker?'].value_counts().to_dict()}
-- Living in?: {df['Living in?'].value_counts().to_dict()}
-- Food preference: {df['Food preference'].value_counts().to_dict()}
-- Any heriditary condition?: {df['Any heriditary condition?'].value_counts().to_dict()}
-
-Nulos por columna:
-{df.isnull().sum().to_dict()}
+- Dimensiones: {df.shape[0]} filas y {df.shape[1]} columnas.
+- Columnas: {', '.join(df.columns.tolist())}
+- Edad promedio: {df['Age'].mean():.1f} años.
+- BMI promedio: {df['BMI'].mean():.2f}.
+- Total Fumadores (YES): {df['Smoker?'].value_counts().get('YES', 0)}
+- Distribución Zona: Urbana ({df['Living in?'].value_counts().get('URBAN', 0)}), Rural ({df['Living in?'].value_counts().get('RURAL', 0)})
+- Promedio Enfermedades/año: {df['Illness count last year'].mean():.2f}
 """
 
     prompt_completo = f"""Eres un asistente analista de datos clínico y experto en hábitos saludables.
