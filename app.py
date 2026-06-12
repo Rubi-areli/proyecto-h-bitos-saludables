@@ -6,9 +6,8 @@ pg = st.navigation(
             st.Page("pages/1_page.py", title="Inicio"),
 
             st.Page("pages/2_EDA.py", title="EDA"),
-
-           
-
+             st.Page("pages/3_Hipotesis.py", title="Hipotesis"),
+        
             st.Page("pages/4_MachineLearning.py", title="Machine Learning"),
 
             st.Page("pages/5_Carga_Archivos.py",
