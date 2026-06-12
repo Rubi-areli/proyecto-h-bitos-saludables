@@ -20,7 +20,7 @@ pg = st.navigation(
                   st.Page("pages/7_Recomendacion.py",
                           title="Recomendacion"), 
 
-            st.Page("pages/8_IA.py", title="Asistente IA"), 
+            
         ],
     }
 )
