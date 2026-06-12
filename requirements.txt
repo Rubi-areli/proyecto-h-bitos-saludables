@@ -3,3 +3,15 @@
 pandas
 streamlit
 google-generativeai
+matplotlib
+seaborn
+scikit-learn
+textblob
+beautifulsoup4
+requests
+wordcloud
+numpy
+pandas
+streamlit
+openpyxl
+google-generativeai
