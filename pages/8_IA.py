@@ -2,7 +2,8 @@ import streamlit as st
 import pandas as pd
 import requests
 import json
-import google.generativeai as genai  # <-- Importamos la librería de Google
+import google.generativeai as genai 
+import google.generativeai as genai # <-- Importamos la librería de Google
 
 st.set_page_config(page_title="Interfaz IA", page_icon="🤖", layout="wide")
 
@@ -177,38 +178,17 @@ Instrucciones obligatorias:
 """
 
     with st.spinner("Analizando con Gemini..."):
-        try:
-            # Obtenemos la API Key desde los secrets de Streamlit
-            api_key = st.secrets["GEMINI_API_KEY"]
-            
-            # Construimos la URL directa a la API oficial de Google usando el modelo correcto
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
-            
-            # Estructuramos la petición exactamente como la pide Google en su documentación
-            payload = {
-                "contents": [
-                    {
-                        "parts": [
-                            {"text": f"{prompt_completo}"}
-                        ]
-                    }
-                ]
-            }
-            headers = {'Content-Type': 'application/json'}
-            
-            # Hacemos la consulta directa a internet
-            response = requests.post(url, headers=headers, data=json.dumps(payload))
-            response_json = response.json()
-            
-            # Extraemos la respuesta de texto de la IA de forma segura
-            if response.status_code == 200:
-                respuesta = response_json['candidates'][0]['content']['parts'][0]['text']
-            else:
-                respuesta = f"❌ Error de la API de Google (Código {response.status_code}): {response_json.get('error', {}).get('message', 'Error desconocido')}"
-                
-        except Exception as e:
-            respuesta = f"❌ Error inesperado al procesar la pregunta: {e}"
-            
+    try:
+
+        model = genai.GenerativeModel("gemini-2.5-flash")
+
+        response = model.generate_content(prompt_completo)
+
+        respuesta = response.text
+
+    except Exception as e:
+        respuesta = f"❌ Error inesperado al procesar la pregunta: {e}"
+
     # Guardar en el historial interactivo
     st.session_state.historial.append({
         'pregunta': pregunta,
