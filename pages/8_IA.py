@@ -174,20 +174,79 @@ Sé conciso pero completo. Máximo 5 líneas."""
 
     with st.spinner("Analizando..."):
         try:
-            response = requests.post(
-                "https://api.anthropic.com/v1/messages",
-                headers={"Content-Type": "application/json"},
-                json={
-                    "model": "claude-sonnet-4-20250514",
-                    "max_tokens": 500,
-                    "messages": [{"role": "user", "content": prompt}]
-                },
-                timeout=30
-            )
-            data = response.json()
-            respuesta = data['content'][0]['text']
+            p = pregunta.lower()
+
+            if any(x in p for x in ['fila', 'row', 'registro', 'cuantos datos']):
+                respuesta = f"El dataset tiene **{df.shape[0]:,} filas** y **{df.shape[1]} columnas**."
+
+            elif any(x in p for x in ['columna', 'variable', 'campo']):
+                respuesta = f"El dataset tiene **{df.shape[1]} columnas**: {', '.join(df.columns.tolist())}."
+
+            elif any(x in p for x in ['edad', 'age', 'promedio edad']):
+                respuesta = f"La **edad promedio** es {df['Age'].mean():.1f} años. Mínima: {df['Age'].min()}, Máxima: {df['Age'].max()}."
+
+            elif any(x in p for x in ['bmi', 'masa corporal', 'peso']):
+                respuesta = f"El **BMI promedio** es {df['BMI'].mean():.2f}. Mínimo: {df['BMI'].min():.1f}, Máximo: {df['BMI'].max():.1f}."
+
+            elif any(x in p for x in ['fum', 'smok', 'cigarro', 'tabaco']):
+                fum = df['Smoker?'].value_counts()
+                respuesta = f"**Fumadores:** {fum.get('YES', 0):,} personas. **No fumadores:** {fum.get('NO', 0):,} personas."
+
+            elif any(x in p for x in ['urban', 'rural', 'zona', 'viv', 'living']):
+                zona = df['Living in?'].value_counts()
+                respuesta = f"**Zona urbana:** {zona.get('URBAN', 0):,} personas. **Zona rural:** {zona.get('RURAL', 0):,} personas."
+
+            elif any(x in p for x in ['enfermedad', 'illness', 'sick', 'enfermos']):
+                respuesta = f"El **promedio de enfermedades** al año es {df['Illness count last year'].mean():.2f}. Máximo: {df['Illness count last year'].max():.0f}."
+
+            elif any(x in p for x in ['actividad', 'activity', 'ejercicio', 'físic']):
+                respuesta = f"El **nivel promedio de actividad física** es {df['Physical activity'].mean():.2f} (escala 0-5)."
+
+            elif any(x in p for x in ['sueño', 'sleep', 'dormir', 'horas']):
+                respuesta = f"El **promedio de horas de sueño** es {df['Regular sleeping hours'].mean():.2f} (escala 0-5)."
+
+            elif any(x in p for x in ['alcohol', 'bebida', 'drink']):
+                respuesta = f"El **promedio de consumo de alcohol** es {df['Alcohol consumption'].mean():.2f} (escala 0-5)."
+
+            elif any(x in p for x in ['dieta', 'diet', 'alimenta', 'comida', 'food']):
+                food = df['Food preference'].value_counts()
+                respuesta = f"**Preferencias alimentarias:** {food.to_dict()}"
+
+            elif any(x in p for x in ['suplemento', 'supplement', 'vitamina']):
+                respuesta = f"El **promedio de toma de suplementos** es {df['Taking supplements'].mean():.2f} (escala 0-5)."
+
+            elif any(x in p for x in ['mental', 'salud mental', 'estrés', 'stress']):
+                respuesta = f"El **promedio de gestión de salud mental** es {df['Mental health management'].mean():.2f} (escala 0-5)."
+
+            elif any(x in p for x in ['nulo', 'null', 'faltante', 'missing', 'vacio']):
+                nulos = df.isnull().sum()
+                cols_nulos = nulos[nulos > 0]
+                respuesta = f"**Valores nulos por columna:**\n{cols_nulos.to_string()}" if len(cols_nulos) > 0 else "No hay valores nulos significativos."
+
+            elif any(x in p for x in ['hereditari', 'hereditar', 'genetica', 'genetic']):
+                her = df['Any heriditary condition?'].value_counts()
+                respuesta = f"**Condiciones hereditarias:** {her.to_dict()}"
+
+            elif any(x in p for x in ['correlac', 'relacion', 'relación']):
+                corr = df.corr(numeric_only=True)['Illness count last year'].sort_values(ascending=False)
+                respuesta = f"**Correlaciones con enfermedades:**\n{corr.round(3).to_string()}"
+
+            elif any(x in p for x in ['maxi', 'maxim', 'mayor', 'highest', 'mas alto']):
+                respuesta = f"Valores máximos — Edad: {df['Age'].max()}, BMI: {df['BMI'].max():.1f}, Enfermedades: {df['Illness count last year'].max():.0f}."
+
+            elif any(x in p for x in ['mini', 'minim', 'menor', 'lowest', 'mas bajo']):
+                respuesta = f"Valores mínimos — Edad: {df['Age'].min()}, BMI: {df['BMI'].min():.1f}, Enfermedades: {df['Illness count last year'].min():.0f}."
+
+            else:
+                respuesta = (
+                    f"Puedo responder preguntas sobre: edad, BMI, fumadores, zona de residencia, "
+                    f"actividad física, horas de sueño, alcohol, dieta, enfermedades, suplementos, "
+                    f"salud mental, condiciones hereditarias y correlaciones. "
+                    f"El dataset tiene {df.shape[0]:,} registros y {df.shape[1]} variables."
+                )
+
         except Exception as e:
-            respuesta = f"Error al conectar con la IA: {e}"
+            respuesta = f"Error al procesar la pregunta: {e}"
 
     st.session_state.historial.append({
         'pregunta': pregunta,
