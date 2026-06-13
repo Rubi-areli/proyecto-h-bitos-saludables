@@ -3,7 +3,7 @@ import pandas as pd
 import requests
 import json
 import google.generativeai as genai 
-import google.generativeai as genai # <-- Importamos la librería de Google
+
 
 st.set_page_config(page_title="Interfaz IA", page_icon="🤖", layout="wide")
 
@@ -181,7 +181,7 @@ Instrucciones obligatorias:
 3. Sé profesional pero accesible. Máximo 5 líneas de respuesta. No inventes datos que no estén descritos arriba.
 """
 
-    with st.spinner("Analizando con Gemini..."):
+with st.spinner("Analizando con Gemini..."):
     try:
 
         model = genai.GenerativeModel("gemini-2.5-flash")
