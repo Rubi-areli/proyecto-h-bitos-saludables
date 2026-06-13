@@ -188,10 +188,10 @@ col_foto, col_info = st.columns([1, 2], gap="large")
 
 with col_foto:
     try:
-        st.image("utils/foto.jpg", use_container_width=True)
+        st.image("utils/foto.jpg", width=220)
     except:
         try:
-            st.image("utils/foto.jpeg", use_container_width=True)
+            st.image("utils/foto.jpeg", width=220)
         except:
             st.info("Agrega tu foto en utils/foto.jpg")
 
@@ -242,18 +242,9 @@ st.markdown('<div class="divider-gold"></div>', unsafe_allow_html=True)
 
 # ── VIDEO ─────────────────────────────────────────────────────────────────────
 st.markdown('<p class="section-label">Data Storytelling</p>', unsafe_allow_html=True)
-st.markdown("""
-<div style="background:#0f0f1a; border:1px solid #2a2a3e; border-top: 2px solid #c9a84c;
-     border-radius:8px; padding:3rem; text-align:center;">
-    <p style="color:#ffffff; font-size:1rem; margin:0; font-weight:600;">
-        Video Demo — En proceso de grabación</p>
-    <p style="color:#8899aa; font-size:0.85rem; margin:0.5rem 0 0 0;">
-        Se agregará próximamente</p>
-</div>
-""", unsafe_allow_html=True)
+st.video("https://youtu.be/n_7QkX-q_HY")
 
 st.markdown('<div class="divider-gold"></div>', unsafe_allow_html=True)
-
 # ── NAVEGACIÓN ────────────────────────────────────────────────────────────────
 st.markdown('<p class="section-label">Contenido del Portafolio</p>', unsafe_allow_html=True)
 
